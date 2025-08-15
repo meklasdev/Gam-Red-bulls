@@ -29,9 +29,7 @@
   - Assets/Scripts/UI/MinimapController.cs
 - Optimization:
   - Assets/Scripts/Optimization/MobileOptimizationSettings.cs
-- Multiplayer (placeholders pod NGO):
-  - Assets/Scripts/Multiplayer/NetworkBootstrap.cs
-  - Assets/Scripts/Multiplayer/NetworkVehicle.cs
+- Multiplayer: nieużywany (usunięty zgodnie z wymaganiami)
 
 ## Edytor
 - Assets/Editor/ProjectBootstrap.cs — generuje brakujące sceny i podstawowe menu.
