@@ -22,6 +22,7 @@ public static class ProjectBootstrap
 		EditorApplication.update -= TryBootstrap;
 		EnsureDirectories();
 		CreateScenesIfMissing();
+		CreatePlaceholderVehicleAssets();
 	}
 
 	private static void EnsureDirectories()
@@ -143,6 +144,29 @@ public static class ProjectBootstrap
 
 		if (onClick != null) btn.onClick.AddListener(() => onClick());
 		return btn;
+	}
+
+	private static void CreatePlaceholderVehicleAssets()
+	{
+		var statsPath = "Assets/Prefabs/VehicleStats_Default.asset";
+		if (!File.Exists(statsPath))
+		{
+			var stats = ScriptableObject.CreateInstance<VehicleStats>();
+			stats.maxSpeedKmh = 200f;
+			stats.acceleration = 14f;
+			stats.brakeForce = 22f;
+			AssetDatabase.CreateAsset(stats, statsPath);
+		}
+		var defPath = "Assets/Prefabs/VehicleDefinition_Default.asset";
+		if (!File.Exists(defPath))
+		{
+			var def = ScriptableObject.CreateInstance<VehicleDefinition>();
+			def.vehicleId = "default_car";
+			def.displayName = "Domyślny Samochód";
+			def.cost = 0;
+			def.stats = AssetDatabase.LoadAssetAtPath<VehicleStats>(statsPath);
+			AssetDatabase.CreateAsset(def, defPath);
+		}
 	}
 }
 #endif
