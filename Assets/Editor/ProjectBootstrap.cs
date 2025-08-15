@@ -23,6 +23,7 @@ public static class ProjectBootstrap
 		EnsureDirectories();
 		CreateScenesIfMissing();
 		CreatePlaceholderVehicleAssets();
+		CreateQualityPresetsIfMissing();
 	}
 
 	private static void EnsureDirectories()
@@ -62,6 +63,7 @@ public static class ProjectBootstrap
 		go.AddComponent<GameManager>();
 		go.AddComponent<SceneLoader>();
 		go.AddComponent<MobileOptimizationSettings>();
+		var opt = go.AddComponent<OptimizationManager>();
 
 		// UI Canvas
 		var canvasGo = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(MainMenuUI));
@@ -80,6 +82,17 @@ public static class ProjectBootstrap
 		CreateButton(canvasGo.transform, "Port Wyścigowy", new Vector2(0, -300), () => GameManager.Instance.StartGameInRegion(SceneNames.RegionPortWyscigowy));
 		CreateButton(canvasGo.transform, "Tor Mistrzów", new Vector2(0, -380), () => GameManager.Instance.StartGameInRegion(SceneNames.RegionTorMistrzow));
 
+		// Overlay FPS
+		var overlayGo = new GameObject("PerformanceOverlay", typeof(RectTransform), typeof(Text), typeof(PerformanceOverlay));
+		overlayGo.transform.SetParent(canvasGo.transform, false);
+		var rect = overlayGo.GetComponent<RectTransform>();
+		rect.anchorMin = new Vector2(0f, 1f); rect.anchorMax = new Vector2(0f, 1f);
+		rect.anchoredPosition = new Vector2(10f, -10f); rect.sizeDelta = new Vector2(320f, 70f);
+		var txt = overlayGo.GetComponent<Text>();
+		txt.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+		txt.color = Color.white; txt.alignment = TextAnchor.UpperLeft; txt.raycastTarget = false;
+		overlayGo.GetComponent<PerformanceOverlay>().GetType().GetField("optimizationManager", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(overlayGo.GetComponent<PerformanceOverlay>(), opt);
+
 		EditorSceneManager.SaveScene(scene, path);
 	}
 
@@ -97,6 +110,7 @@ public static class ProjectBootstrap
 		systems.AddComponent<TimeOfDayManager>();
 		systems.AddComponent<MissionSystem>();
 		systems.AddComponent<ContractSystem>();
+		var opt = systems.AddComponent<OptimizationManager>();
 
 		// Prosty teren placeholder
 		var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -104,10 +118,20 @@ public static class ProjectBootstrap
 		ground.transform.localScale = new Vector3(10, 1, 10);
 
 		// Kamera
-		var cam = new GameObject("Main Camera", typeof(Camera));
+		var cam = new GameObject("Main Camera", typeof(Camera), typeof(AdaptiveCulling));
 		cam.GetComponent<Camera>().transform.position = new Vector3(0, 20, -20);
 		cam.GetComponent<Camera>().transform.LookAt(Vector3.zero);
 		cam.tag = "MainCamera";
+
+		// Overlay FPS
+		var canvasGo = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+		var canvas = canvasGo.GetComponent<Canvas>(); canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+		var overlayGo = new GameObject("PerformanceOverlay", typeof(RectTransform), typeof(Text), typeof(PerformanceOverlay));
+		overlayGo.transform.SetParent(canvasGo.transform, false);
+		var rect = overlayGo.GetComponent<RectTransform>(); rect.anchorMin = new Vector2(0f, 1f); rect.anchorMax = new Vector2(0f, 1f);
+		rect.anchoredPosition = new Vector2(10f, -10f); rect.sizeDelta = new Vector2(320f, 70f);
+		var txt = overlayGo.GetComponent<Text>(); txt.font = Resources.GetBuiltinResource<Font>("Arial.ttf"); txt.color = Color.white; txt.alignment = TextAnchor.UpperLeft; txt.raycastTarget = false;
+		overlayGo.GetComponent<PerformanceOverlay>().GetType().GetField("optimizationManager", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.SetValue(overlayGo.GetComponent<PerformanceOverlay>(), opt);
 
 		// Pojazd gracza placeholder
 		var player = GameObject.CreatePrimitive(PrimitiveType.Capsule);
@@ -167,6 +191,24 @@ public static class ProjectBootstrap
 			def.stats = AssetDatabase.LoadAssetAtPath<VehicleStats>(statsPath);
 			AssetDatabase.CreateAsset(def, defPath);
 		}
+	}
+
+	private static void CreateQualityPresetsIfMissing()
+	{
+		string baseDir = "Assets/Prefabs";
+		if (!Directory.Exists(baseDir)) Directory.CreateDirectory(baseDir);
+		CreatePreset("Low", 60, 0.8f, 0.7f, 2, 2, false, false, 0, baseDir);
+		CreatePreset("Medium", 60, 1.0f, 1.0f, 0, 1, true, true, 2, baseDir);
+		CreatePreset("High", 60, 1.0f, 1.5f, 0, 0, true, true, 4, baseDir);
+	}
+
+	private static void CreatePreset(string name, int fps, float scale, float lodBias, int maxLod, int texQ, bool aniso, bool shadows, int msaa, string dir)
+	{
+		string path = $"{dir}/Quality_{name}.asset";
+		if (File.Exists(path)) return;
+		var p = ScriptableObject.CreateInstance<QualityPreset>();
+		p.displayName = name; p.targetFrameRate = fps; p.renderScale = scale; p.lodBias = lodBias; p.maximumLODLevel = maxLod; p.textureQuality = texQ; p.anisotropicEnable = aniso; p.shadowsEnabled = shadows; p.msaaSamples = msaa;
+		AssetDatabase.CreateAsset(p, path);
 	}
 }
 #endif
