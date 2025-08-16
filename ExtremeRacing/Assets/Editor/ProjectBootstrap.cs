@@ -86,7 +86,8 @@ namespace ExtremeRacing.Editor
 				"Region_PustynnyKanion",
 				"Region_MiastoNocy",
 				"Region_PortWyscigowy",
-				"Region_TorMistrzow"
+				"Region_TorMistrzow",
+				"Region_ArenaEventowa"
 			};
 			foreach (var name in sceneNames)
 			{
@@ -192,7 +193,8 @@ namespace ExtremeRacing.Editor
 				"Region_PustynnyKanion",
 				"Region_MiastoNocy",
 				"Region_PortWyscigowy",
-				"Region_TorMistrzow"
+				"Region_TorMistrzow",
+				"Region_ArenaEventowa"
 			};
 			foreach (var name in sceneNames)
 			{
