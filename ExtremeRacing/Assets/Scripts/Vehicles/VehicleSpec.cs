@@ -6,15 +6,18 @@ namespace ExtremeRacing.Vehicles
 	{
 		Bike,
 		Motocross,
+		Motorcycle,
 		Supercar,
-		F1
+		Rally,
+		F1,
+		Gokart
 	}
 
 	[CreateAssetMenu(menuName = "ExtremeRacing/Vehicle Spec", fileName = "VehicleSpec")]
 	public class VehicleSpec : ScriptableObject
 	{
 		public string vehicleId = "vehicle";
-		public VehicleType type = VehicleType.Supercar;
+		public VehicleType vehicleType = VehicleType.Supercar;
 		[Header("Dynamics")]
 		public float maxSpeedKmh = 240f;
 		public float acceleration = 15f;
