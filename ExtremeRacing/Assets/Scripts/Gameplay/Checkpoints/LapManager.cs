@@ -22,23 +22,19 @@ namespace ExtremeRacing.Gameplay
 			lapStartTime = Time.time;
 		}
 
-		private void OnTriggerEnter(Collider other)
+		public void OnGatePassed(int index, Collider other)
 		{
 			if (!_active) return;
-			if (checkpoints.Count == 0) return;
-			Transform cp = checkpoints[_currentCheckpoint];
-			if (other.transform == cp)
+			if (index != _currentCheckpoint) return;
+			_currentCheckpoint = (_currentCheckpoint + 1) % checkpoints.Count;
+			if (_currentCheckpoint == 0)
 			{
-				_currentCheckpoint = (_currentCheckpoint + 1) % checkpoints.Count;
-				if (_currentCheckpoint == 0)
+				float lapTime = Time.time - lapStartTime;
+				lapStartTime = Time.time;
+				_currentLap++;
+				if (_currentLap > totalLaps)
 				{
-					float lapTime = Time.time - lapStartTime;
-					lapStartTime = Time.time;
-					_currentLap++;
-					if (_currentLap > totalLaps)
-					{
-						FinishRace(lapTime);
-					}
+					FinishRace(lapTime);
 				}
 			}
 		}
