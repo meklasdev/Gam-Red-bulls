@@ -382,18 +382,32 @@ namespace ExtremeRacing.Assets
 
         private IEnumerator LoadVehicleModelCoroutine(Vehicle3DAsset asset, Action<GameObject> onComplete)
         {
-            // In real implementation, download from Thingiverse/MyMiniFactory
-            // For now, create procedural model based on vehicle type
+            GameObject model = null;
             
-            yield return new WaitForSeconds(0.1f); // Simulate download time
+            // Try to get real downloaded model first
+            if (RealAssetDownloader.Instance != null && 
+                RealAssetDownloader.Instance.TryGetRealModel(asset.id, out GameObject realModel))
+            {
+                model = realModel;
+                Debug.Log($"[AssetManager] Using REAL downloaded model: {asset.name}");
+            }
+            else
+            {
+                // Fallback to procedural model
+                yield return new WaitForSeconds(0.1f); // Simulate processing time
+                model = CreateProceduralVehicleModel(asset);
+                Debug.Log($"[AssetManager] Using procedural model: {asset.name}");
+                
+                // Try to download real model in background for next time
+                if (RealAssetDownloader.Instance != null)
+                {
+                    RealAssetDownloader.Instance.DownloadModelAsync(asset.id);
+                }
+            }
 
-            GameObject model = CreateProceduralVehicleModel(asset);
             _loadedVehicleModels[asset.id] = model;
-            
             OnVehicleModelLoaded?.Invoke(asset.id);
             onComplete?.Invoke(model);
-            
-            Debug.Log($"[AssetManager] Loaded vehicle model: {asset.name}");
         }
 
         private GameObject CreateProceduralVehicleModel(Vehicle3DAsset asset)
