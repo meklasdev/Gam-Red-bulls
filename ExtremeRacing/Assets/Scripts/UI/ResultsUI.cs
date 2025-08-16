@@ -1,12 +1,12 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class ResultsUI : MonoBehaviour
 {
 	public GameObject root;
-	public Text titleText;
-	public Text statusText;
-	public Text rewardText;
+	public TextMeshProUGUI titleText;
+	public TextMeshProUGUI statusText;
+	public TextMeshProUGUI rewardText;
 
 	public void Show(string title, bool success, int reward)
 	{

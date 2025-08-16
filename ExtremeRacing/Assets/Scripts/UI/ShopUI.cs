@@ -1,34 +1,35 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using ExtremeRacing.Managers;
 
 namespace ExtremeRacing.UI
 {
 	public class ShopUI : MonoBehaviour
 	{
-		public Text balanceText;
+		public TextMeshProUGUI balanceText;
 		public Button buySupercarBtn;
 		public Button buyF1Btn;
-		private int _balance = 1000;
 
 		private void Start()
 		{
 			Refresh();
-			if (buySupercarBtn) buySupercarBtn.onClick.AddListener(() => TryBuy(800));
-			if (buyF1Btn) buyF1Btn.onClick.AddListener(() => TryBuy(1200));
+			if (buySupercarBtn) buySupercarBtn.onClick.AddListener(() => TryBuy(800, "Supercar_Basic"));
+			if (buyF1Btn) buyF1Btn.onClick.AddListener(() => TryBuy(1200, "F1_Basic"));
 		}
 
-		private void TryBuy(int cost)
+		private void TryBuy(int cost, string vehicleId)
 		{
-			if (_balance >= cost)
+			if (EconomyManager.Instance.TrySpend(cost))
 			{
-				_balance -= cost;
+				Gameplay.ProgressionSystem.Instance.UnlockVehicle(vehicleId);
 				Refresh();
 			}
 		}
 
 		private void Refresh()
 		{
-			if (balanceText) balanceText.text = $"$ {_balance}";
+			if (balanceText) balanceText.text = $"$ {EconomyManager.Instance.GetBalance()}";
 		}
 	}
 }

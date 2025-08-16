@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 using ExtremeRacing.Vehicles;
 
 namespace ExtremeRacing.UI
 {
 	public class HUDController : MonoBehaviour
 	{
-		public Text speedText;
-		public Text statusText;
+		public TextMeshProUGUI speedText;
+		public TextMeshProUGUI statusText;
 		public VehicleController playerVehicle;
 
 		private void Update()

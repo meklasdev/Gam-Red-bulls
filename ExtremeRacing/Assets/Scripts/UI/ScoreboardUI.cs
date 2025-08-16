@@ -1,6 +1,6 @@
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 using ExtremeRacing.Multiplayer;
 
 namespace ExtremeRacing.UI
@@ -8,7 +8,7 @@ namespace ExtremeRacing.UI
 	public class ScoreboardUI : MonoBehaviour
 	{
 		public SimpleLobby lobby;
-		public Text scoreboardText;
+		public TextMeshProUGUI scoreboardText;
 		public float refreshInterval = 0.5f;
 		private float _timer;
 

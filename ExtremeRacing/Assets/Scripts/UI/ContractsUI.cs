@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 using ExtremeRacing.Gameplay;
 
 namespace ExtremeRacing.UI
@@ -7,7 +7,7 @@ namespace ExtremeRacing.UI
 	public class ContractsUI : MonoBehaviour
 	{
 		public ContractSystem contractSystem;
-		public Text listText;
+		public TextMeshProUGUI listText;
 
 		private void OnEnable()
 		{
