@@ -1,0 +1,5 @@
+To enable Occlusion Culling in each region scene:
+1) Window > Rendering > Occlusion Culling
+2) Set near/far/highest accuracy for mobile-friendly values
+3) Place Occlusion Areas around dense city/port regions
+4) Bake
