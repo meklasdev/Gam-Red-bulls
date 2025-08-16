@@ -1,0 +1,37 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+Assets/AssetBundles/
+Assets/StreamingAssets/AssetBundles/
+
+# IDEs
+.vscode/
+.idea/
+*.userprefs
+*.csproj
+*.sln
+*.suo
+*.tmp
+*.pidb
+*.booproj
+*.svd
+
+# Unity auto-generated
+*.unityproj
+*.blend1
+*.blend2
+
+# Crashlytics/other
+*.apk
+*.ipa
+*.keystore
+*.xcworkspace
+*.xcuserstate
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+DerivedData/

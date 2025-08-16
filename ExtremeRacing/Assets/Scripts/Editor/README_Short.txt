@@ -1,0 +1,7 @@
+- Open the project in Unity 2023 LTS.
+- On first open, the bootstrapper will create URP, scenes, prefabs, and vehicle specs.
+- Use menu:
+  - ExtremeRacing/Configure/Mobile Player Settings
+  - ExtremeRacing/Scenes/Populate All Regions
+  - ExtremeRacing/Build/AssetBundles
+- Build targets: Android (min 8.0), iOS (13.0).
