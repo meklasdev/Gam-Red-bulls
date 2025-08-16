@@ -116,12 +116,14 @@
 
 ## 🎮 **CO GRACZ DOSTAJE**
 
-### **POJAZDY (15+ UNIKALNYCH MODELI)**
+### **POJAZDY (25+ UNIKALNYCH MODELI)**
 - **Supercars**: Lamborghini Huracán (żółty), Ferrari F40 (czerwony), McLaren 720S (pomarańczowy)
 - **F1 Cars**: Red Bull RB19 (niebieski), Mercedes W14 (cyan) z pełnym systemem DRS/pitstopów
 - **Rally Cars**: Subaru WRX STI (niebieski), Ford Focus RS (zielony) z mud textures
 - **Motorcycles**: KTM 250 SX-F (czerwony) z dirt bike physics
-- **Bikes**: Trek Mountain Bike (zielony), BMX Freestyle (żółty z graffiti)
+- **Bikes**: Trek Mountain (zielony), BMX Freestyle (żółty), Downhill Monster (ekstrem), Tandem (2-osobowy), Electric E-bike
+- **Gokarts**: Racing Kart Pro (czerwony), Electric Kart (zielony), Offroad Buggy (sandy)
+- **Drony**: FPV Racing (czerwony z LED), Freestyle Quad (pomarańczowy), Camera Drone (czarny), Heavy Lift (szary)
 - **Animals**: Horse (rideable), Elephant (rideable), Eagle (latający), Cheetah (najszybszy)
 
 ### **PROCEDURAL CONTENT GENERATION**

@@ -41,6 +41,7 @@ namespace ExtremeRacing.Assets
         Bike,
         Motorcycle,
         Gokart,
+        Drone,
         Truck,
         ATV
     }
@@ -194,6 +195,88 @@ namespace ExtremeRacing.Assets
                     type = VehicleType.Bike,
                     modelUrl = "https://www.thingiverse.com/thing:5678901",
                     scale = new Vector3(0.1f, 0.1f, 0.1f)
+                },
+                new Vehicle3DAsset 
+                { 
+                    id = "downhill_bike", 
+                    name = "Downhill Monster", 
+                    type = VehicleType.Bike,
+                    modelUrl = "https://www.thingiverse.com/thing:6789012",
+                    scale = new Vector3(0.1f, 0.1f, 0.1f)
+                },
+                new Vehicle3DAsset 
+                { 
+                    id = "tandem_bike", 
+                    name = "Tandem Cruiser", 
+                    type = VehicleType.Bike,
+                    modelUrl = "https://www.thingiverse.com/thing:7890123",
+                    scale = new Vector3(0.08f, 0.08f, 0.12f)
+                }
+            });
+
+            // Gokarts
+            _vehicle3DAssets.AddRange(new[]
+            {
+                new Vehicle3DAsset 
+                { 
+                    id = "racing_gokart", 
+                    name = "Racing Kart Pro", 
+                    type = VehicleType.Gokart,
+                    modelUrl = "https://www.thingiverse.com/thing:8901234",
+                    scale = new Vector3(0.08f, 0.08f, 0.08f)
+                },
+                new Vehicle3DAsset 
+                { 
+                    id = "electric_gokart", 
+                    name = "Electric Kart", 
+                    type = VehicleType.Gokart,
+                    modelUrl = "https://www.thingiverse.com/thing:9012345",
+                    scale = new Vector3(0.08f, 0.08f, 0.08f)
+                },
+                new Vehicle3DAsset 
+                { 
+                    id = "offroad_gokart", 
+                    name = "Offroad Buggy", 
+                    type = VehicleType.Gokart,
+                    modelUrl = "https://www.thingiverse.com/thing:0123456",
+                    scale = new Vector3(0.09f, 0.09f, 0.09f)
+                }
+            });
+
+            // Drony
+            _vehicle3DAssets.AddRange(new[]
+            {
+                new Vehicle3DAsset 
+                { 
+                    id = "racing_drone", 
+                    name = "FPV Racing Drone", 
+                    type = VehicleType.Drone,
+                    modelUrl = "https://www.thingiverse.com/thing:1234567",
+                    scale = new Vector3(0.15f, 0.15f, 0.15f)
+                },
+                new Vehicle3DAsset 
+                { 
+                    id = "freestyle_drone", 
+                    name = "Freestyle Quad", 
+                    type = VehicleType.Drone,
+                    modelUrl = "https://www.thingiverse.com/thing:2345678",
+                    scale = new Vector3(0.12f, 0.12f, 0.12f)
+                },
+                new Vehicle3DAsset 
+                { 
+                    id = "surveillance_drone", 
+                    name = "Camera Drone", 
+                    type = VehicleType.Drone,
+                    modelUrl = "https://www.thingiverse.com/thing:3456789",
+                    scale = new Vector3(0.18f, 0.18f, 0.18f)
+                },
+                new Vehicle3DAsset 
+                { 
+                    id = "cargo_drone", 
+                    name = "Heavy Lift Drone", 
+                    type = VehicleType.Drone,
+                    modelUrl = "https://www.thingiverse.com/thing:4567890",
+                    scale = new Vector3(0.2f, 0.2f, 0.2f)
                 }
             });
 
@@ -331,6 +414,8 @@ namespace ExtremeRacing.Assets
                     return CreateBikeModel(vehicle, asset);
                 case VehicleType.Gokart:
                     return CreateGokartModel(vehicle, asset);
+                case VehicleType.Drone:
+                    return CreateDroneModel(vehicle, asset);
                 default:
                     return CreateGenericVehicleModel(vehicle, asset);
             }
@@ -539,16 +624,160 @@ namespace ExtremeRacing.Assets
             seat.transform.localScale = new Vector3(0.8f, 0.6f, 0.8f);
             seat.name = "Seat";
 
-            // Engine (rear)
+            // Engine (rear) - różne typy
             GameObject engine = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             engine.transform.SetParent(parent.transform);
             engine.transform.localPosition = new Vector3(0, 0.4f, -1.5f);
-            engine.transform.localScale = new Vector3(0.4f, 0.6f, 0.4f);
             engine.name = "Engine";
+
+            if (asset.id.Contains("electric"))
+            {
+                // Electric - flat battery pack
+                engine.transform.localScale = new Vector3(0.6f, 0.2f, 0.6f);
+                engine.GetComponent<Renderer>().material.color = Color.green;
+            }
+            else if (asset.id.Contains("racing"))
+            {
+                // Racing - performance engine
+                engine.transform.localScale = new Vector3(0.5f, 0.8f, 0.5f);
+                engine.GetComponent<Renderer>().material.color = Color.red;
+            }
+            else
+            {
+                // Standard engine
+                engine.transform.localScale = new Vector3(0.4f, 0.6f, 0.4f);
+            }
+
+            // Roll cage dla racing
+            if (asset.id.Contains("racing"))
+            {
+                GameObject rollCage = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                rollCage.transform.SetParent(parent.transform);
+                rollCage.transform.localPosition = new Vector3(0, 1.2f, -0.5f);
+                rollCage.transform.localRotation = Quaternion.Euler(0, 0, 90);
+                rollCage.transform.localScale = new Vector3(0.05f, 1.5f, 0.05f);
+                rollCage.name = "RollCage";
+            }
+
+            // Offroad bumper
+            if (asset.id.Contains("offroad"))
+            {
+                GameObject bumper = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                bumper.transform.SetParent(parent.transform);
+                bumper.transform.localPosition = new Vector3(0, 0.2f, 1.3f);
+                bumper.transform.localScale = new Vector3(1.4f, 0.1f, 0.2f);
+                bumper.name = "Bumper";
+            }
 
             CreateWheels(parent, 1.1f, 2.2f, 0.25f); // Small wheels
 
             ApplyVehicleMaterial(parent, asset, GetGokartColor(asset.id));
+            return parent;
+        }
+
+        private GameObject CreateDroneModel(GameObject parent, Vehicle3DAsset asset)
+        {
+            // Central body
+            GameObject body = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            body.transform.SetParent(parent.transform);
+            body.transform.localScale = new Vector3(0.6f, 0.2f, 0.6f);
+            body.name = "Body";
+
+            // Camera gimbal (front)
+            GameObject camera = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            camera.transform.SetParent(parent.transform);
+            camera.transform.localPosition = new Vector3(0, -0.15f, 0.4f);
+            camera.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            camera.name = "Camera";
+
+            // 4 Arms z propellers
+            Vector3[] armPositions = {
+                new Vector3(0.4f, 0, 0.4f),   // Front right
+                new Vector3(-0.4f, 0, 0.4f),  // Front left  
+                new Vector3(0.4f, 0, -0.4f),  // Rear right
+                new Vector3(-0.4f, 0, -0.4f)  // Rear left
+            };
+
+            for (int i = 0; i < 4; i++)
+            {
+                // Arm
+                GameObject arm = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                arm.transform.SetParent(parent.transform);
+                arm.transform.localPosition = armPositions[i];
+                arm.transform.localRotation = Quaternion.Euler(0, 0, 90);
+                arm.transform.localScale = new Vector3(0.05f, 0.6f, 0.05f);
+                arm.name = $"Arm_{i}";
+
+                // Motor
+                GameObject motor = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                motor.transform.SetParent(parent.transform);
+                motor.transform.localPosition = armPositions[i] + new Vector3(0, 0.1f, 0);
+                motor.transform.localScale = new Vector3(0.15f, 0.1f, 0.15f);
+                motor.name = $"Motor_{i}";
+
+                // Propeller
+                GameObject prop = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                prop.transform.SetParent(parent.transform);
+                prop.transform.localPosition = armPositions[i] + new Vector3(0, 0.15f, 0);
+                prop.transform.localScale = new Vector3(0.8f, 0.02f, 0.05f);
+                prop.name = $"Propeller_{i}";
+
+                // Różne kolory dla front/rear
+                if (i < 2) // Front
+                {
+                    prop.GetComponent<Renderer>().material.color = Color.black;
+                }
+                else // Rear
+                {
+                    prop.GetComponent<Renderer>().material.color = Color.white;
+                }
+            }
+
+            // Battery (bottom)
+            GameObject battery = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            battery.transform.SetParent(parent.transform);
+            battery.transform.localPosition = new Vector3(0, -0.15f, 0);
+            battery.transform.localScale = new Vector3(0.4f, 0.1f, 0.8f);
+            battery.name = "Battery";
+
+            // Antenna
+            GameObject antenna = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            antenna.transform.SetParent(parent.transform);
+            antenna.transform.localPosition = new Vector3(0, 0.2f, -0.3f);
+            antenna.transform.localScale = new Vector3(0.02f, 0.3f, 0.02f);
+            antenna.name = "Antenna";
+
+            // LED strips dla różnych typów
+            if (asset.id.Contains("racing"))
+            {
+                // Racing - LED strips
+                for (int i = 0; i < 4; i++)
+                {
+                    GameObject led = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    led.transform.SetParent(parent.transform);
+                    led.transform.localPosition = armPositions[i] + new Vector3(0, 0.05f, 0);
+                    led.transform.localScale = new Vector3(0.1f, 0.02f, 0.1f);
+                    led.GetComponent<Renderer>().material.color = Color.cyan;
+                    led.name = $"LED_{i}";
+                }
+            }
+            else if (asset.id.Contains("surveillance"))
+            {
+                // Surveillance - larger camera
+                camera.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+                camera.GetComponent<Renderer>().material.color = Color.black;
+            }
+            else if (asset.id.Contains("cargo"))
+            {
+                // Cargo - hooks
+                GameObject hook = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                hook.transform.SetParent(parent.transform);
+                hook.transform.localPosition = new Vector3(0, -0.3f, 0);
+                hook.transform.localScale = new Vector3(0.05f, 0.2f, 0.05f);
+                hook.name = "CargoHook";
+            }
+
+            ApplyVehicleMaterial(parent, asset, GetDroneColor(asset.id));
             return parent;
         }
 
@@ -1128,7 +1357,25 @@ namespace ExtremeRacing.Assets
 
         private Color GetGokartColor(string id)
         {
-            return Color.red;
+            switch (id)
+            {
+                case "racing_gokart": return Color.red;
+                case "electric_gokart": return Color.green;
+                case "offroad_gokart": return new Color(0.8f, 0.6f, 0.2f); // Sandy
+                default: return Color.blue;
+            }
+        }
+
+        private Color GetDroneColor(string id)
+        {
+            switch (id)
+            {
+                case "racing_drone": return Color.red;
+                case "freestyle_drone": return new Color(1f, 0.5f, 0f); // Orange
+                case "surveillance_drone": return Color.black;
+                case "cargo_drone": return Color.gray;
+                default: return Color.white;
+            }
         }
 
         private Color GetHorseColor(string id)

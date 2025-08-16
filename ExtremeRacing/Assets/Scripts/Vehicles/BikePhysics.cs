@@ -52,13 +52,17 @@ namespace ExtremeRacing.Vehicles
         public System.Action<int> OnStuntPerformed;
         public System.Action OnCrash;
 
-        public enum BikeType
-        {
-            Mountain,
-            BMX,
-            Road,
-            Motocross
-        }
+            public enum BikeType
+    {
+        Mountain,    // Góry, enduro, traction
+        BMX,        // Skoki, freestyle, agility
+        Road,       // Szybkość, długie dystanse
+        Motocross,  // Dirt jumps, aggressive
+        Electric,   // E-bike z motor assist
+        Tandem,     // Dwumiejscowy
+        Cruiser,    // Relaxed riding
+        Downhill    // Extreme downhill
+    }
 
         private void Start()
         {
@@ -92,24 +96,58 @@ namespace ExtremeRacing.Vehicles
                     _maxSpeed = 45f;
                     _acceleration = 8f;
                     _jumpForce = 250f;
+                    _wheelGrip = 1.3f; // Dobra trakcja na trails
                     break;
                 case BikeType.BMX:
                     _maxSpeed = 30f;
                     _acceleration = 12f;
                     _jumpForce = 400f;
                     _enableStunts = true;
+                    _wheelGrip = 0.9f; // Slidey dla tricków
                     break;
                 case BikeType.Road:
                     _maxSpeed = 60f;
                     _acceleration = 6f;
                     _jumpForce = 150f;
                     _enableStunts = false;
+                    _wheelGrip = 1.1f; // Smooth rolling
                     break;
                 case BikeType.Motocross:
                     _maxSpeed = 80f;
                     _acceleration = 15f;
                     _jumpForce = 500f;
                     _flipTorque = 200f;
+                    _wheelGrip = 1.2f; // Dirt traction
+                    break;
+                case BikeType.Electric:
+                    _maxSpeed = 50f;
+                    _acceleration = 18f; // Instant torque
+                    _jumpForce = 200f;
+                    _enableStunts = false;
+                    _wheelGrip = 1.0f;
+                    break;
+                case BikeType.Tandem:
+                    _maxSpeed = 45f; // Więcej power (2 osoby)
+                    _acceleration = 5f; // Wolny start
+                    _jumpForce = 180f; // Cięższy
+                    _enableStunts = false;
+                    _wheelGrip = 1.1f;
+                    _rigidbody.mass = 2f; // Cięższy
+                    break;
+                case BikeType.Cruiser:
+                    _maxSpeed = 35f;
+                    _acceleration = 7f;
+                    _jumpForce = 120f; // Nie do skoków
+                    _enableStunts = false;
+                    _wheelGrip = 1.2f;
+                    break;
+                case BikeType.Downhill:
+                    _maxSpeed = 90f; // Najszybszy na spadkach
+                    _acceleration = 4f; // Wolny na płaskim
+                    _jumpForce = 300f;
+                    _enableStunts = true;
+                    _wheelGrip = 1.4f; // Max grip dla bezpieczeństwa
+                    _flipTorque = 150f;
                     break;
             }
         }
