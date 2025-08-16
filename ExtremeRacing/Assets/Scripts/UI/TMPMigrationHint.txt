@@ -1,0 +1,4 @@
+Replace all UnityEngine.UI.Text with TextMeshProUGUI in Canvas UIs.
+- Add package: TextMeshPro (already in manifest)
+- Menu: Window > TextMeshPro > Import TMP Essential Resources
+- Use TMP components and update references in UI scripts if needed.

@@ -109,7 +109,6 @@ namespace ExtremeRacing.Editor
 
 		private static void CreatePrefabsAndAssets()
 		{
-			// GameSystems prefab
 			string systemsPath = "Assets/Prefabs/GameSystems.prefab";
 			if (!File.Exists(systemsPath))
 			{
@@ -122,11 +121,13 @@ namespace ExtremeRacing.Editor
 				root.AddComponent<ExtremeRacing.Gameplay.ContractSystem>();
 				root.AddComponent<ExtremeRacing.Gameplay.DriftScoring>();
 				root.AddComponent<ExtremeRacing.Gameplay.LootSpawner>();
+				root.AddComponent<ExtremeRacing.Gameplay.ActivityManager>();
+				root.AddComponent<ExtremeRacing.Managers.EconomyManager>();
+				root.AddComponent<ExtremeRacing.Gameplay.ProgressionSystem>();
 				PrefabUtility.SaveAsPrefabAsset(root, systemsPath);
 				Object.DestroyImmediate(root);
 			}
 
-			// NetworkManager prefab
 			string nmPath = "Assets/Prefabs/NetworkManager.prefab";
 			if (!File.Exists(nmPath))
 			{
@@ -139,7 +140,6 @@ namespace ExtremeRacing.Editor
 				Object.DestroyImmediate(go);
 			}
 
-			// HUD prefab
 			string hudPath = "Assets/Prefabs/HUD.prefab";
 			if (!File.Exists(hudPath))
 			{
@@ -162,7 +162,6 @@ namespace ExtremeRacing.Editor
 				Object.DestroyImmediate(canvasGO);
 			}
 
-			// Vehicle specs
 			CreateVehicleSpec("Bike_Basic", ExtremeRacing.Vehicles.VehicleType.Bike, 60, 12, 1.2f, 10, 35);
 			CreateVehicleSpec("Motocross_Basic", ExtremeRacing.Vehicles.VehicleType.Motocross, 120, 18, 1.1f, 14, 35);
 			CreateVehicleSpec("Supercar_Basic", ExtremeRacing.Vehicles.VehicleType.Supercar, 320, 28, 1.6f, 24, 28);
