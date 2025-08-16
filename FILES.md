@@ -24,27 +24,40 @@
   - Assets/Scripts/Systems/StuntManager.cs
   - Assets/Scripts/Systems/DroneController.cs
   - Assets/Scripts/Systems/BettingSystem.cs
+  - Assets/Scripts/Systems/MultiplayerManager.cs
+- Race:
+  - Assets/Scripts/Race/Checkpoint.cs
+  - Assets/Scripts/Race/DRSZone.cs
+  - Assets/Scripts/Race/GhostRecorder.cs
+  - Assets/Scripts/Race/PitStop.cs
+  - Assets/Scripts/Race/RaceManager.cs
+  - Assets/Scripts/Race/GrandPrixManager.cs
+- Stubs (kompilacja poza Unity):
+  - Assets/Scripts/Stubs/UnityStubs.cs
+  - Assets/Scripts/Stubs/NetcodeStubs.cs
 - UI:
   - Assets/Scripts/UI/MainMenuUI.cs
   - Assets/Scripts/UI/MinimapController.cs
 - Optimization:
   - Assets/Scripts/Optimization/MobileOptimizationSettings.cs
-- Multiplayer: nieużywany (usunięty zgodnie z wymaganiami)
 
 ## Edytor
 - Assets/Editor/ProjectBootstrap.cs — generuje brakujące sceny i podstawowe menu.
 
 ## Sceny
-- Assets/Scenes/README.txt — opis. Sceny tworzone automatycznie przy pierwszym otwarciu projektu:
-  - MainMenu
-  - Region_GorskiSzczyt
-  - Region_PustynnyKanion
-  - Region_MiastoNocy
-  - Region_PortWyscigowy
-  - Region_TorMistrzow
+- Assets/Scenes/MainMenu.unity
+- Assets/Scenes/Region_GorskiSzczyt.unity
+- Assets/Scenes/Region_PustynnyKanion.unity
+- Assets/Scenes/Region_MiastoNocy.unity
+- Assets/Scenes/Region_PortWyscigowy.unity
+- Assets/Scenes/Region_TorMistrzow.unity
+- Assets/Scenes/README.txt — opis scen i ich przeznaczenia
 
 ## Prefaby
 - Do utworzenia w edytorze (placeholdery w scenach). Brak committed prefabów.
 
 ## Zasoby zewnętrzne
 - Assets/ExternalAssets/sources.md — rekomendowane, licencyjnie bezpieczne źródła modeli/tekstur/audio (CC0 itp.).
+
+## Dokumentacja
+- PROJECT_STATUS.md — bieżący status projektu i zakres brakujących elementów.
