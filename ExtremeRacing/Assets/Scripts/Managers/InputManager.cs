@@ -8,18 +8,20 @@ namespace ExtremeRacing.Managers
 {
 	public class InputManager : Singleton<InputManager>
 	{
-		public float Steer { get; private set; }
-		public float Throttle { get; private set; }
-		public float Brake { get; private set; }
-		public bool Handbrake { get; private set; }
-		public bool Boost { get; private set; }
+			public float Steer { get; private set; }
+	public float Throttle { get; private set; }
+	public float Brake { get; private set; }
+	public bool Handbrake { get; private set; }
+	public bool Boost { get; private set; }
+	public bool Jump { get; private set; }
 
 #if ENABLE_INPUT_SYSTEM
-		private InputAction _steerAction;
-		private InputAction _throttleAction;
-		private InputAction _brakeAction;
-		private InputAction _handbrakeAction;
-		private InputAction _boostAction;
+			private InputAction _steerAction;
+	private InputAction _throttleAction;
+	private InputAction _brakeAction;
+	private InputAction _handbrakeAction;
+	private InputAction _boostAction;
+	private InputAction _jumpAction;
 #endif
 
 		private bool _hasTouchOverride;
@@ -30,41 +32,46 @@ namespace ExtremeRacing.Managers
 		{
 			base.Awake();
 #if ENABLE_INPUT_SYSTEM
-			_steerAction = new InputAction("Steer", binding: "<Gamepad>/leftStick/x");
-			_throttleAction = new InputAction("Throttle", binding: "<Gamepad>/rightTrigger");
-			_brakeAction = new InputAction("Brake", binding: "<Gamepad>/leftTrigger");
-			_handbrakeAction = new InputAction("Handbrake", binding: "<Gamepad>/buttonSouth");
-			_boostAction = new InputAction("Boost", binding: "<Gamepad>/buttonNorth");
+					_steerAction = new InputAction("Steer", binding: "<Gamepad>/leftStick/x");
+		_throttleAction = new InputAction("Throttle", binding: "<Gamepad>/rightTrigger");
+		_brakeAction = new InputAction("Brake", binding: "<Gamepad>/leftTrigger");
+		_handbrakeAction = new InputAction("Handbrake", binding: "<Gamepad>/buttonSouth");
+		_boostAction = new InputAction("Boost", binding: "<Gamepad>/buttonNorth");
+		_jumpAction = new InputAction("Jump", binding: "<Gamepad>/buttonEast");
 
-			_steerAction.AddBinding("<Keyboard>/a");
-			_steerAction.AddBinding("<Keyboard>/d");
-			_throttleAction.AddBinding("<Keyboard>/w");
-			_brakeAction.AddBinding("<Keyboard>/s");
-			_handbrakeAction.AddBinding("<Keyboard>/space");
-			_boostAction.AddBinding("<Keyboard>/leftShift");
+					_steerAction.AddBinding("<Keyboard>/a");
+		_steerAction.AddBinding("<Keyboard>/d");
+		_throttleAction.AddBinding("<Keyboard>/w");
+		_brakeAction.AddBinding("<Keyboard>/s");
+		_handbrakeAction.AddBinding("<Keyboard>/space");
+		_boostAction.AddBinding("<Keyboard>/leftShift");
+		_jumpAction.AddBinding("<Keyboard>/leftCtrl");
 
-			_steerAction.Enable();
-			_throttleAction.Enable();
-			_brakeAction.Enable();
-			_handbrakeAction.Enable();
-			_boostAction.Enable();
+					_steerAction.Enable();
+		_throttleAction.Enable();
+		_brakeAction.Enable();
+		_handbrakeAction.Enable();
+		_boostAction.Enable();
+		_jumpAction.Enable();
 #endif
 		}
 
 		private void Update()
 		{
 #if ENABLE_INPUT_SYSTEM
-			float steer = _steerAction.ReadValue<float>();
-			float throttle = _throttleAction.ReadValue<float>();
-			float brake = _brakeAction.ReadValue<float>();
-			bool handbrake = _handbrakeAction.ReadValue<float>() > 0.5f;
-			bool boost = _boostAction.ReadValue<float>() > 0.5f;
+					float steer = _steerAction.ReadValue<float>();
+		float throttle = _throttleAction.ReadValue<float>();
+		float brake = _brakeAction.ReadValue<float>();
+		bool handbrake = _handbrakeAction.ReadValue<float>() > 0.5f;
+		bool boost = _boostAction.ReadValue<float>() > 0.5f;
+		bool jump = _jumpAction.WasPressedThisFrame();
 #else
-			float steer = Input.GetAxis("Horizontal");
-			float throttle = Mathf.Clamp01(Input.GetAxis("Vertical"));
-			float brake = Mathf.Clamp01(-Input.GetAxis("Vertical"));
-			bool handbrake = Input.GetKey(KeyCode.Space);
-			bool boost = Input.GetKey(KeyCode.LeftShift);
+					float steer = Input.GetAxis("Horizontal");
+		float throttle = Mathf.Clamp01(Input.GetAxis("Vertical"));
+		float brake = Mathf.Clamp01(-Input.GetAxis("Vertical"));
+		bool handbrake = Input.GetKey(KeyCode.Space);
+		bool boost = Input.GetKey(KeyCode.LeftShift);
+		bool jump = Input.GetKeyDown(KeyCode.LeftControl);
 #endif
 			if (_hasTouchOverride)
 			{
@@ -75,11 +82,12 @@ namespace ExtremeRacing.Managers
 				boost = _ovBoost;
 			}
 
-			Steer = steer;
-			Throttle = throttle;
-			Brake = brake;
-			Handbrake = handbrake;
-			Boost = boost;
+					Steer = steer;
+		Throttle = throttle;
+		Brake = brake;
+		Handbrake = handbrake;
+		Boost = boost;
+		Jump = jump;
 		}
 
 		public void SetTouchInput(float steer, float throttle, float brake, bool handbrake, bool boost)
