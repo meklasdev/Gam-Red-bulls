@@ -1,0 +1,18 @@
+[gd_resource type="VehicleStats" format=3]
+
+[resource]
+script = preload("res://scripts/vehicles/vehicle_stats.gd")
+vehicle_name = "Motocykl Sportowy"
+vehicle_type = "moto"
+description = "Potężny motocykl sportowy z niesamowitą prędkością i zwinnością."
+unlock_level = 5
+price = 25000
+max_speed = 220.0
+acceleration = 1.5
+handling = 0.9
+braking = 1.1
+durability = 0.7
+drift_capability = 0.8
+off_road_capability = 0.5
+nitro_capacity = 100.0
+fuel_efficiency = 0.9

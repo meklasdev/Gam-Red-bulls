@@ -1,0 +1,156 @@
+[gd_scene load_steps=8 format=3 uid="uid://ckm5n8y2qp3rb"]
+
+[ext_resource type="Script" path="res://scripts/vehicles/car_controller.gd" id="1_car_controller"]
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 1
+background_color = Color(1, 0.8, 0.4, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.9, 0.6, 1)
+ambient_light_energy = 0.6
+fog_enabled = true
+fog_light_color = Color(0.8, 0.6, 0.4, 1)
+fog_density = 0.005
+
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+size = Vector3(300, 1, 300)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+albedo_color = Color(0.8, 0.6, 0.3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(300, 1, 300)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2"]
+size = Vector3(2, 1, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2"]
+size = Vector3(2, 1, 6)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1"]
+top_radius = 8.0
+bottom_radius = 12.0
+height = 20.0
+
+[node name="PustynnyKanion" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.3, 0.6, 0, 0.894427, 0.447214, -0.707107, -0.316228, 0.632456, 0, 20, 0)
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="Terrain" type="StaticBody3D" parent="."]
+
+[node name="TerrainMesh" type="MeshInstance3D" parent="Terrain"]
+mesh = SubResource("BoxMesh_1")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="TerrainCollision" type="CollisionShape3D" parent="Terrain"]
+shape = SubResource("BoxShape3D_1")
+
+[node name="CanyonWalls" type="Node3D" parent="."]
+
+[node name="Wall1" type="StaticBody3D" parent="CanyonWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 10, 0)
+
+[node name="WallMesh" type="MeshInstance3D" parent="CanyonWalls/Wall1"]
+mesh = SubResource("CylinderMesh_1")
+
+[node name="Wall2" type="StaticBody3D" parent="CanyonWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 12, 20)
+
+[node name="WallMesh" type="MeshInstance3D" parent="CanyonWalls/Wall2"]
+mesh = SubResource("CylinderMesh_1")
+
+[node name="PlayerSpawn" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="TestCar" type="VehicleBody3D" parent="PlayerSpawn"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_car_controller")
+
+[node name="CarMesh" type="MeshInstance3D" parent="PlayerSpawn/TestCar"]
+mesh = SubResource("BoxMesh_2")
+
+[node name="FrontLeftWheel" type="VehicleWheel3D" parent="PlayerSpawn/TestCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.3, 1.2)
+use_as_traction = true
+use_as_steering = true
+
+[node name="FrontRightWheel" type="VehicleWheel3D" parent="PlayerSpawn/TestCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.3, 1.2)
+use_as_traction = true
+use_as_steering = true
+
+[node name="RearLeftWheel" type="VehicleWheel3D" parent="PlayerSpawn/TestCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.3, -1.2)
+use_as_traction = true
+
+[node name="RearRightWheel" type="VehicleWheel3D" parent="PlayerSpawn/TestCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.3, -1.2)
+use_as_traction = true
+
+[node name="Camera3D" type="Camera3D" parent="PlayerSpawn/TestCar"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 3, 8)
+fov = 75.0
+
+[node name="DriftZones" type="Node3D" parent="."]
+
+[node name="DriftZone1" type="Area3D" parent="DriftZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, 30)
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="DriftZones/DriftZone1"]
+mesh = SubResource("BoxMesh_2")
+
+[node name="ZoneCollision" type="CollisionShape3D" parent="DriftZones/DriftZone1"]
+shape = SubResource("BoxShape3D_2")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="SpeedLabel" type="Label" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -100.0
+offset_right = -20.0
+offset_bottom = -20.0
+text = "Prędkość: 0 km/h"
+
+[node name="RegionLabel" type="Label" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -50.0
+offset_right = 300.0
+offset_bottom = -20.0
+text = "Region: Pustynny Kanion"
+
+[node name="DriftScoreLabel" type="Label" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 50.0
+text = "Drift: 0 punktów"

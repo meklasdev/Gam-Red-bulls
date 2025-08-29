@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Mission" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/mission_system.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "nocny_wyscig"
+title = "Nocny Wyścig"
+description = "Wygraj wyścig w Mieście Nocy między 22:00 a 04:00. Uważaj na ograniczoną widoczność!"
+region = "miasto_nocy"
+difficulty = 4
+objectives = PackedStringArray("Ukończ wyścig na 1. miejscu", "Wyścig musi odbywać się w nocy", "Nie rozbij się więcej niż 2 razy")
+rewards = {"money": 2500, "reputation": 60, "unlock": "night_vision"}
+requirements = {"level": 5}
+time_limit = 420.0
+is_story_mission = false

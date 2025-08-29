@@ -1,0 +1,18 @@
+[gd_resource type="VehicleStats" format=3]
+
+[resource]
+script = preload("res://scripts/vehicles/vehicle_stats.gd")
+vehicle_name = "Samochód Podstawowy"
+vehicle_type = "car"
+description = "Podstawowy samochód idealny dla początkujących. Dobra równowaga wszystkich parametrów."
+unlock_level = 1
+price = 5000
+max_speed = 120.0
+acceleration = 0.8
+handling = 0.7
+braking = 0.8
+durability = 1.0
+drift_capability = 0.6
+off_road_capability = 0.4
+nitro_capacity = 80.0
+fuel_efficiency = 1.2
