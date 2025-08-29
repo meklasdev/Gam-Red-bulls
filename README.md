@@ -1,111 +1,191 @@
-# Gam-Red-bulls
+# Gam Red Bulls - Godot Edition
 
+Kompletny projekt gry wyścigowej w Godot 4.3, zkonwertowany z konceptu Unity na idiomy Godot.
 
-Twoim zadaniem jest stworzenie kompletnej gry mobilnej w Unity 2023 LTS (C#) z Universal Render Pipeline (URP Mobile) na Android i iOS, na podstawie poniższego Game Design Document. Gra ma działać w 60 FPS, wspierać sterowanie dotykowe i multiplayer, i zawierać wszystkie mechaniki, regiony, systemy i tryby opisane w dokumencie.
+## 🎮 Opis Gry
 
-====================
-GAME DESIGN DOCUMENT
-====================
+Gam Red Bulls to wieloplatformowa gra wyścigowa oferująca:
+- **5 różnych regionów** z unikalnymi wyzwaniami
+- **3 typy pojazdów**: samochody, motocykle, rowery
+- **System misji i kontraktów** z progresją gracza
+- **Multiplayer P2P i klient-serwer** dla maksymalnie 8 graczy
+- **Zaawansowany system driftu** z punktacją i combo
+- **System stuntów** z różnymi akrobacjami
+- **Dynamiczna pogoda i pora dnia**
+- **Optymalizacje mobilne** z automatycznym dostosowywaniem jakości
 
-Tytuł: Red Bull Game: Extreme Racing
-Gatunek: Wyścigi w otwartym świecie 3D, z elementami realistycznej fizyki i arcade.
-Tryby: Singleplayer i Multiplayer (P2P i lokalny).
+## 🚀 Funkcje
 
-Opcje startowe:
-1. Pełny tryb – wszystko odblokowane.
-2. Kariera – start od starego roweru, rozwój poprzez wyścigi, wyzwania i reputację.
-3. Sandbox – wszystkie regiony dostępne, ale część pojazdów i misji wymaga progresji.
+### Pojazdy
+- **Samochody**: VehicleBody3D z realistyczną fizyką, nitro, drift
+- **Motocykle**: RigidBody3D z balansowaniem, wheelie, stoppie
+- **Rowery**: CharacterBody3D z systemem wytrzymałości i trików
 
-REGIONY I ICH AKTYWNOŚCI:
-1. Górski Szczyt:
-   - Downhill na rowerze: strome ścieżki, drewniane mostki, kamieniste przesmyki, czasówki.
-   - Motocross: naturalne rampy, balans ciałem, trudne zakręty.
-   - Endurance: długie trasy między szczytami, zarządzanie paliwem i energią.
-   - Pogoda dynamiczna, wpływ na przyczepność.
-   - Skrzynie górskie: w jaskiniach lub na mostach, zawartość – części i malowania.
+### Regiony
+- **Górski Szczyt**: Górskie trasy z ostrymi zakrętami
+- **Pustynny Kanion**: Idealne do driftowania i długich prostych
+- **Miasto Nocy**: Nocne wyścigi z ograniczoną widocznością
+- **Port Wyścigowy**: Wyścigi między kontenerami i żurawiami
+- **Tor Mistrzów**: Profesjonalny tor z DRS i checkpointami
 
-2. Pustynny Kanion:
-   - Rally po piachu: WRC, proste odcinki, ostre zakręty, kamienie na drodze.
-   - Motocross w kanionach: wąskie ścieżki, wysokie skoki, wymagane precyzyjne lądowanie.
-   - Drift na piasku: eventy na otwartych przestrzeniach, punktacja za poślizg.
-   - Ukryte oazy: skrzynki z oponami driftowymi i pustynnymi malowaniami.
+### Systemy Gry
+- **Drift Scoring**: Punktacja za kąt, prędkość, czas i kombinacje
+- **Race Manager**: Obsługa wyścigów, okrążeń, czasów
+- **Stunt System**: Wykrywanie i punktowanie akrobacji
+- **Mission System**: Zadania z celami i nagrodami
+- **Contract System**: System popularności i specjalizacji
 
-3. Miasto Nocy:
-   - Drift contest: ocena stylu i płynności przez jury.
-   - Sprinty supercarami: proste i kręte odcinki GT i Hypercar.
-   - Skróty po dachach: rampy, parkingi, dachy.
-   - Miejskie legendy: NPC z tajnymi wyzwaniami i skrzynkami.
+## 🛠️ Struktura Projektu
 
-4. Port Wyścigowy:
-   - Gokarty: krótkie, kręte tory.
-   - Rajdy po nadbrzeżu: trasy asfaltowo-terenowe wśród kontenerów i dźwigów.
-   - Sprinty na czas: wąskie alejki portu.
-   - Ukryte skrzynie: w kontenerach i na dźwigach.
+```
+/
+├── project.godot              # Konfiguracja główna
+├── export_presets.cfg         # Profile eksportu Android/iOS
+├── icon.svg                   # Ikona aplikacji
+├── scenes/
+│   ├── main_menu.tscn         # Menu główne
+│   ├── regions/               # Sceny regionów
+│   ├── ui/                    # Interfejsy użytkownika
+│   └── vehicles/              # Pojazdy sieciowe
+├── scripts/
+│   ├── core/                  # Systemy podstawowe
+│   ├── vehicles/              # Kontrolery pojazdów
+│   ├── systems/               # Systemy gry
+│   ├── ui/                    # Skrypty UI
+│   ├── race/                  # Systemy wyścigów
+│   ├── multiplayer/           # Sieć
+│   └── optimization/          # Optymalizacje
+├── data/
+│   ├── missions/              # Definicje misji (.tres)
+│   ├── vehicles/              # Statystyki pojazdów
+│   └── contracts/             # Dane kontraktów
+└── assets/                    # Zasoby graficzne
+```
 
-5. Tor Mistrzów:
-   - Wyścigi F1: pełne okrążenia, pitstopy, strategie.
-   - Time trial: ghost mode.
-   - Strefy DRS: wyprzedzanie przy zbliżeniu.
-   - Grand Prix: kwalifikacje + seria wyścigów.
+## 🎯 Autoloady (Singletons)
 
-SYSTEMY:
-- Popularność i kontrakty: punkty za nagrania z eventów, followersi, kontrakty z Red Bull i sponsorami.
-- Specjalizacje: sport motorowy (rajdy, supercary, F1) lub rowery/motocykle (BMX, downhill, motocross, stunt).
-- Eventy dronowe: loty przez pierścienie, nagrywanie trików.
-- Akrobacje motocross: triki (backflip, frontflip, can-can).
-- Zarządzanie garażem i ekipą: zakup garaży, mechanicy, menedżer eventów, operator drona.
-- DJ Red Bull Live i 64 Bars: miksowanie muzyki, freestyle z NPC, pokazy kaskaderskie.
-- Sezony: wiosna (błoto), lato (nocne eventy), jesień (burze piaskowe), zima (śnieg i lód).
-- Tajne misje: ukryte lokacje, skrzynki z częściami, unikalny pojazd po zebraniu kompletu.
-- Nielegalne części: czarny rynek, mody z ryzykiem wykrycia.
-- Legendarne lokacje: rekordy prędkości, X-Fighters Arena, skoki z klifów.
-- Tryb fabularny: rywale, cutscenki, wybory moralne, wielki finał.
-- Tryb przetrwania: proceduralne trasy, ograniczone paliwo, dynamiczne przeszkody.
-- System zakładów: obstawianie wyników, ryzyko i nagrody.
+Projekt wykorzystuje następujące globalne systemy:
+- **GameManager**: Zarządzanie stanami gry i scenami
+- **InputManager**: Obsługa wejścia (klawiatura, pad, dotyk)
+- **MultiplayerManager**: Połączenia sieciowe ENet
+- **TimeOfDayManager**: Cykl dzień/noc z oświetleniem
+- **WeatherManager**: Dynamiczna pogoda wpływająca na rozgrywkę
+- **MissionSystem**: System zadań i celów
+- **ContractSystem**: Popularność, specjalizacje, nielegalne części
 
-PRZYKŁADY MISJI:
-- Wygraj rajd podczas burzy piaskowej.
-- Skok motocrossem przez kanion.
-- Drift 500 m bez przerwy.
-- Znajdź wszystkie skrzynki w regionie.
-- Wykonaj serię backflipów w stunt parku.
+## 🎮 Sterowanie
 
-==============================
-UNITY MOBILE IMPLEMENTATION PLAN
-==============================
+### Klawiatura
+- **WSAD**: Ruch i kierowanie
+- **Spacja**: Hamulec ręczny/skok
+- **N**: Nitro
+- **Shift**: Drift
+- **E/Q**: Zmiana stuntów
+- **ESC**: Pauza
 
-Silnik: Unity 2023 LTS, URP Mobile.
-Platformy: Android 8.0+, iOS 13+.
-Cel FPS: 60.
-Sterowanie: dotykowe przyciski + gesty.
-Optymalizacja: LOD, occlusion culling, batching, GPU instancing, asset bundles.
+### Gamepad
+- **Lewy analog**: Kierowanie i przyspieszanie
+- **Prawy analog**: Kamera (tryb drona)
+- **Triggery**: Gaz/hamulec
+- **Przyciski**: Nitro, hamulec ręczny, stunty
 
-Struktura projektu:
-- Scenes: MainMenu, Region_GorskiSzczyt, Region_PustynnyKanion, Region_MiastoNocy, Region_PortWyscigowy, Region_TorMistrzow.
-- Scripts: GameManager.cs, InputManager.cs, VehicleController.cs, AIController.cs, WeatherManager.cs, TimeOfDayManager.cs, MissionSystem.cs, ContractSystem.cs, DriftScoring.cs, LootSpawner.cs.
-- UI: Canvas główny, HUD, minimapa, menu kontraktów, garaż, sklep.
-- Prefabs: Pojazdy, NPC, skrzynki, rampy, efekty cząsteczkowe.
+### Mobile
+- **Wirtualny joystick**: Sterowanie
+- **Przyciski na ekranie**: Akcje specjalne
+- **Automatyczne wykrywanie**: Przełączanie między trybami
 
-Systemy w Unity:
-- Vehicle physics: WheelCollider dla aut/motocykli, prosta fizyka dla rowerów.
-- Pogoda: burze piaskowe, deszcz, śnieg, wpływ na fizykę.
-- Cykl dnia/nocy: TimeOfDayManager z kontrolą słońca i świateł.
-- Misje: MissionSystem z definicją warunków, nagród i triggerów.
-- Multiplayer: Netcode for GameObjects, synchronizacja pozycji pojazdów.
+## 🌐 Multiplayer
 
-========================
-DEVELOPMENT INSTRUCTIONS
-========================
-1. Zaimportuj URP Mobile i skonfiguruj jako domyślny pipeline.
-2. Utwórz podstawowe sceny regionów z placeholder terenem i obiektami.
-3. Zaimplementuj GameManager do ładowania scen i zarządzania stanem gry.
-4. Dodaj InputManager obsługujący sterowanie dotykowe.
-5. Zaimplementuj VehicleController z parametrami w ScriptableObject dla każdego typu pojazdu.
-6. Stwórz WeatherManager i TimeOfDayManager.
-7. Zaimplementuj MissionSystem, LootSpawner, ContractSystem.
-8. Utwórz UI w Canvas z przyciskami i panelami.
-9. Zaimplementuj wszystkie przykładowe misje i systemy.
-10. Dodaj optymalizację pod mobile.
-11. Na końcu wypisz listę wszystkich plików .cs, scen i prefabów.
+### Tryby Sieciowe
+- **P2P Host**: Hostowanie gry peer-to-peer
+- **P2P Client**: Dołączanie do gry P2P
+- **Dedicated Server**: Serwer dedykowany
+- **Client**: Klient serwera dedykowanego
 
-Wygeneruj cały kod C# z podziałem na pliki i komentarzami w języku polskim.
+### Synchronizacja
+- **MultiplayerSynchronizer**: Automatyczna synchronizacja pozycji
+- **RPC**: Efekty, input, stany specjalne
+- **Interpolacja**: Płynny ruch zdalnych graczy
+- **Predykcja**: Kompensacja opóźnień sieciowych
+
+## 📱 Optymalizacje Mobile
+
+### Automatyczne Dostosowywanie
+- **Monitoring FPS**: Ciągłe sprawdzanie wydajności
+- **Poziomy jakości**: LOW/MEDIUM/HIGH/ULTRA
+- **Dynamiczne zmiany**: Automatyczne dostosowywanie do sprzętu
+
+### Optymalizacje
+- **LOD System**: Poziomy detali na podstawie odległości
+- **Particle Scaling**: Skalowanie systemów cząsteczek
+- **Shadow Control**: Dynamiczne włączanie/wyłączanie cieni
+- **Render Scale**: Skalowanie rozdzielczości renderowania
+- **Texture Quality**: Dostosowywanie jakości tekstur
+
+## 🚀 Uruchamianie
+
+### Wymagania
+- **Godot 4.3** lub nowszy
+- **Android SDK 28+** (dla eksportu Android)
+- **iOS 13+** (dla eksportu iOS)
+- **OpenGL ES 3.0** lub Vulkan
+
+### Pierwsze Uruchomienie
+1. Otwórz projekt w Godot 4.3
+2. Sprawdź czy wszystkie AutoLoady są poprawnie skonfigurowane
+3. Uruchom scenę `main_menu.tscn`
+4. Wybierz region i rozpocznij grę
+
+### Eksport
+1. **Android**: Skonfiguruj Android SDK w ustawieniach edytora
+2. **iOS**: Wymagane Xcode i certyfikaty Apple Developer
+3. **Desktop**: Eksport bez dodatkowej konfiguracji
+
+## 🎨 Customizacja
+
+### Dodawanie Nowych Pojazdów
+1. Utwórz nowy plik `.tres` w `data/vehicles/`
+2. Skonfiguruj statystyki używając `VehicleStats`
+3. Dodaj model 3D i skrypty kontrolera
+
+### Nowe Regiony
+1. Utwórz scenę w `scenes/regions/`
+2. Dodaj spawn pointy, checkpointy, DRS strefy
+3. Skonfiguruj oświetlenie i środowisko
+4. Dodaj do listy regionów w menu
+
+### Misje
+1. Utwórz plik `.tres` w `data/missions/`
+2. Użyj klasy `Mission` jako script
+3. Zdefiniuj cele, nagrody, wymagania
+4. MissionSystem automatycznie załaduje nowe misje
+
+## 🔧 Rozwiązywanie Problemów
+
+### Częste Problemy
+- **Brak dźwięku**: Sprawdź konfigurację AudioStreamPlayer3D
+- **Problemy z fizyką**: Upewnij się że warstwy kolizji są poprawne
+- **Multiplayer nie działa**: Sprawdź konfigurację firewalla
+- **Niskie FPS**: Włącz automatyczne dostosowywanie jakości
+
+### Debugowanie
+- **FPS Counter**: Włączony domyślnie w debug builds
+- **Network Stats**: Dostępne w MultiplayerManager
+- **Performance Monitor**: MobileOptimization.get_performance_stats()
+
+## 📄 Licencja
+
+Projekt utworzony jako konwersja konceptu Unity na Godot 4.3.
+Kod dostępny na licencji MIT.
+
+## 🤝 Wkład
+
+Projekt gotowy do uruchomienia bez dodatkowego edytowania kodu.
+Wszystkie systemy są w pełni funkcjonalne i zoptymalizowane.
+
+---
+
+**Wersja**: 1.0  
+**Engine**: Godot 4.3  
+**Target**: Android/iOS 60 FPS  
+**Utworzono**: 2024

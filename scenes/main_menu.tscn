@@ -1,0 +1,114 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvx7fxj8qk2ca"]
+
+[ext_resource type="Script" path="res://scripts/ui/main_menu_ui.gd" id="1_main_menu_script"]
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 1
+background_color = Color(0.1, 0.15, 0.2, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.5, 0.6, 0.8, 1)
+ambient_light_energy = 0.3
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_main_menu_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.1, 0.15, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -300.0
+offset_right = 200.0
+offset_bottom = -250.0
+text = "GAM RED BULLS"
+label_settings = SubResource("LabelSettings_1")
+horizontal_alignment = 1
+
+[node name="MenuContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 200.0
+
+[node name="StartButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+text = "ROZPOCZNIJ GRĘ"
+
+[node name="SandboxButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+text = "TRYB SANDBOX"
+
+[node name="CareerButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+text = "KARIERA"
+
+[node name="MultiplayerButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+text = "MULTIPLAYER"
+
+[node name="SettingsButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+text = "USTAWIENIA"
+
+[node name="QuitButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+text = "WYJŚCIE"
+
+[node name="RegionSelectDialog" type="AcceptDialog" parent="."]
+title = "Wybierz Region"
+initial_position = 2
+size = Vector2i(400, 300)
+
+[node name="RegionContainer" type="VBoxContainer" parent="RegionSelectDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+
+[node name="RegionLabel" type="Label" parent="RegionSelectDialog/RegionContainer"]
+layout_mode = 2
+text = "Wybierz region do eksploracji:"
+
+[node name="RegionList" type="ItemList" parent="RegionSelectDialog/RegionContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[sub_resource type="LabelSettings" id="LabelSettings_1"]
+font_size = 48
+font_color = Color(1, 0.8, 0.2, 1)
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.8)
+
+[connection signal="pressed" from="MenuContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MenuContainer/SandboxButton" to="." method="_on_sandbox_button_pressed"]
+[connection signal="pressed" from="MenuContainer/CareerButton" to="." method="_on_career_button_pressed"]
+[connection signal="pressed" from="MenuContainer/MultiplayerButton" to="." method="_on_multiplayer_button_pressed"]
+[connection signal="pressed" from="MenuContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MenuContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="item_selected" from="RegionSelectDialog/RegionContainer/RegionList" to="." method="_on_region_selected"]

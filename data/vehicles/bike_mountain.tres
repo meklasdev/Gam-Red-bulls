@@ -1,0 +1,18 @@
+[gd_resource type="VehicleStats" format=3]
+
+[resource]
+script = preload("res://scripts/vehicles/vehicle_stats.gd")
+vehicle_name = "Rower Górski"
+vehicle_type = "bike"
+description = "Wytrzymały rower górski idealny do jazdy w terenie i wykonywania trików."
+unlock_level = 1
+price = 800
+max_speed = 60.0
+acceleration = 0.6
+handling = 1.1
+braking = 0.7
+durability = 1.2
+drift_capability = 0.4
+off_road_capability = 1.5
+nitro_capacity = 0.0
+fuel_efficiency = 999.0

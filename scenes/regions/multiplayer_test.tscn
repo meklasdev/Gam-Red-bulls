@@ -1,0 +1,151 @@
+[gd_scene load_steps=7 format=3 uid="uid://d9k5n6p8qr2tc"]
+
+[ext_resource type="Script" path="res://scripts/multiplayer/multiplayer_scene.gd" id="1_multiplayer_scene"]
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 1
+background_color = Color(0.3, 0.5, 0.7, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.8, 0.9, 1, 1)
+ambient_light_energy = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+size = Vector3(200, 1, 200)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+albedo_color = Color(0.4, 0.6, 0.4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(200, 1, 200)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2"]
+size = Vector3(10, 2, 20)
+
+[node name="MultiplayerTest" type="Node3D"]
+script = ExtResource("1_multiplayer_scene")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
+light_energy = 1.0
+shadow_enabled = true
+
+[node name="Terrain" type="StaticBody3D" parent="."]
+
+[node name="TerrainMesh" type="MeshInstance3D" parent="Terrain"]
+mesh = SubResource("BoxMesh_1")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="TerrainCollision" type="CollisionShape3D" parent="Terrain"]
+shape = SubResource("BoxShape3D_1")
+
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="Obstacle1" type="StaticBody3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 1, -30)
+
+[node name="ObstacleMesh" type="MeshInstance3D" parent="Obstacles/Obstacle1"]
+mesh = SubResource("BoxMesh_2")
+
+[node name="Obstacle2" type="StaticBody3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 1, 20)
+
+[node name="ObstacleMesh" type="MeshInstance3D" parent="Obstacles/Obstacle2"]
+mesh = SubResource("BoxMesh_2")
+
+[node name="SpawnPoints" type="Node3D" parent="."]
+
+[node name="SpawnPoint1" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 2, 0)
+
+[node name="SpawnPoint2" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2, 0)
+
+[node name="SpawnPoint3" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 20)
+
+[node name="SpawnPoint4" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -20)
+
+[node name="NetworkedVehicles" type="Node3D" parent="."]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MultiplayerUI" type="Panel" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -200.0
+offset_right = 320.0
+offset_bottom = -20.0
+
+[node name="UIContainer" type="VBoxContainer" parent="UI/MultiplayerUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="TitleLabel" type="Label" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+text = "MULTIPLAYER TEST"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+
+[node name="HostButton" type="Button" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+text = "HOSTUJ GRĘ"
+
+[node name="JoinContainer" type="HBoxContainer" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+
+[node name="IPInput" type="LineEdit" parent="UI/MultiplayerUI/UIContainer/JoinContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "127.0.0.1"
+text = "127.0.0.1"
+
+[node name="JoinButton" type="Button" parent="UI/MultiplayerUI/UIContainer/JoinContainer"]
+layout_mode = 2
+text = "DOŁĄCZ"
+
+[node name="HSeparator2" type="HSeparator" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+text = "Status: Offline"
+
+[node name="PlayersLabel" type="Label" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+text = "Gracze: 0/8"
+
+[node name="HSeparator3" type="HSeparator" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+
+[node name="DisconnectButton" type="Button" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+text = "ROZŁĄCZ"
+disabled = true
+
+[node name="BackButton" type="Button" parent="UI/MultiplayerUI/UIContainer"]
+layout_mode = 2
+text = "POWRÓT"
+
+[connection signal="pressed" from="UI/MultiplayerUI/UIContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="UI/MultiplayerUI/UIContainer/JoinContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="UI/MultiplayerUI/UIContainer/DisconnectButton" to="." method="_on_disconnect_button_pressed"]
+[connection signal="pressed" from="UI/MultiplayerUI/UIContainer/BackButton" to="." method="_on_back_button_pressed"]

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Mission" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/mission_system.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "tor_mistrzow_wyzwanie"
+title = "Wyzwanie Mistrzów"
+description = "Ustanów nowy rekord na legendarnym Torze Mistrzów. To ostateczny test twoich umiejętności!"
+region = "tor_mistrzow"
+difficulty = 5
+objectives = PackedStringArray("Ukończ okrążenie w czasie poniżej 1:30", "Użyj DRS co najmniej 3 razy", "Nie opuść toru ani razu", "Utrzymaj średnią prędkość powyżej 120 km/h")
+rewards = {"money": 5000, "reputation": 150, "unlock": "championship_vehicle"}
+requirements = {"level": 10, "reputation": 500}
+time_limit = 180.0
+is_story_mission = true

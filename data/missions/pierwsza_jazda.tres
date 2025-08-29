@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Mission" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/mission_system.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "pierwsza_jazda"
+title = "Pierwsza Jazda"
+description = "Ukończ swoje pierwsze okrążenie w Górskim Szczycie. Poznaj podstawy sterowania i osiągnij prędkość 80 km/h."
+region = "gorski_szczyt"
+difficulty = 1
+objectives = PackedStringArray("Ukończ pełne okrążenie", "Osiągnij prędkość 80 km/h", "Przejdź przez wszystkie checkpointy")
+rewards = {"money": 500, "reputation": 15, "unlock": "basic_tuning"}
+requirements = {"level": 1}
+time_limit = 0.0
+is_story_mission = true

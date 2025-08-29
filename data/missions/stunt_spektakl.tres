@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Mission" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/mission_system.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "stunt_spektakl"
+title = "Spektakularny Stunt"
+description = "Wykonaj niesamowite akrobacje w Porcie Wyścigowym. Pokaż wszystkie swoje umiejętności!"
+region = "port_wyscigowy"
+difficulty = 4
+objectives = PackedStringArray("Wykonaj 5 różnych typów stuntów", "Zdobądź combo 3x", "Wykonaj skok wyższy niż 5 metrów", "Wyląduj idealnie (tolerancja 10 stopni)")
+rewards = {"money": 2000, "reputation": 75, "unlock": "stunt_boost"}
+requirements = {"level": 6, "vehicle_type": "moto"}
+time_limit = 0.0
+is_story_mission = false
